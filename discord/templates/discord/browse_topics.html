@@ -1,0 +1,11 @@
+<div class="container">
+    <h3>Browse Topics</h3>
+    <hr>
+    <a class="btn btn-primary mb-3" href="{% url 'home_name' %}">Show All</a>
+
+    {% for topic in topics %}
+    <div>
+        <a class="btn btn-secondary mb-2" href="{% url 'home_name' %}?q={{ topic.name }}">{{ topic.name }}</a>
+    </div>
+    {% endfor %}
+</div>

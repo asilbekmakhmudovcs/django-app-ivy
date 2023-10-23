@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    {% extends 'main.html' %}
+    <meta charset="UTF-8">
+    <title>{% block title %}Room{% endblock title %}</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+</head>
+<body>
+    {% block content %}
+    <div class="container">
+        <div class="row">
+            <div class="col-md-9">
+                <h1>Room name: {{ sth.topic_name }}</h1>
+                <div>
+                    <p>Topic: {{ sth.topic }}</p>
+                    <p>{{ sth.description }}</p>
+                </div>
+
+                <div class="comment-wrapper">
+                    <h3>Conversation:</h3>
+                    <hr>
+                    {% for message in msgs %}
+                    <div class="mb-4">
+                        <p>{{ message.user.first_name }} {{ message.user.last_name }} <strong><span>@{{ message.user }}</span></strong></p>
+                        <strong>{{ message.body }}</strong>&nbsp;&nbsp;<small>{{ message.created|timesince }} ago.</small>
+                        {% if request.user == message.user %}
+                        <p><a class="btn btn-danger btn-sm" href="{% url 'delete_message' message.id %}">Delete</a></p>
+                        {% endif %}
+                        <hr>
+                    </div>
+                    {% endfor %}
+                    {% if request.user.is_authenticated %}
+                    <div class="comment-form">
+                        <form method="post" action="">
+                            {% csrf_token %}
+                            <div class="form-group">
+                                <input type="text" class="form-control" name="message" placeholder="Write your messages here"/>
+                            </div>
+                            <button type="submit" class="btn btn-primary">Submit</button>
+                        </form>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+
+            <div class="col-md-3">
+                <h3>Participants:</h3>
+                <hr>
+                {% for participant in participants %}
+                <p>&nbsp;&nbsp;&nbsp;@{{ participant.username }}</p>
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+    {% endblock content %}
+
+    <!-- Include Bootstrap JavaScript and jQuery (optional) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

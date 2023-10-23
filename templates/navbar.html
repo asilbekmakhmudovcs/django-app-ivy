@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <!-- Include Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/for_links.css" type="text/css">
+</head>
+<body>
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="/">Home</a>
+
+        <!-- Search form -->
+        <form class="form-inline my-2 my-lg-0 ml-auto" method="get" action="{% url 'home_name' %}">
+            <input class="form-control mr-sm-2" type="text" name="q" placeholder="Search rooms">
+            <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+
+        <!-- User authentication -->
+        <div class="ml-2">
+            {% if request.user.is_authenticated %}
+                <span class="navbar-text">Hello, {{ request.user }}</span>
+                <a class="btn btn-outline-danger ml-2" href="{% url 'logout_url' %}">Logout</a>
+            {% else %}
+                <a class="btn btn-outline-primary" href="{% url 'login_name' %}">Login</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <hr>
+</body>
+</html>
